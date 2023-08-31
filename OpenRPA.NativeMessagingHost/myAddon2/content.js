@@ -386,6 +386,7 @@ if (true == false) {
                         }
                     }, true);
                     document.addEventListener('mousedown', function (e) { openrpautil.pushEvent('mousedown', e); }, true);
+                    document.addEventListener('blur', function (e) { openrpautil.pushEvent('blur', e); }, true);
 
                     openrpautil.getRunningVersion();
                 },
