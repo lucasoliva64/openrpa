@@ -876,7 +876,8 @@ async function runtimeOnMessage(msg, sender, fnResponse) {
         if (msg.functionName !== "keydown" && msg.functionName !== "keyup") console.log("[send]" + msg.functionName);
     }
 
-    if (runningVersion !== null && runningVersion > 0 && (msg.functionName === 'click' || msg.functionName === 'tab' || msg.functionName === 'ctrlc' || msg.functionName === 'ctrlv' || msg.functionName === 'return')) {
+    if (runningVersion !== null && runningVersion > 0 && (msg.functionName === 'click' || msg.functionName === 'tab' ||
+        msg.functionName === 'ctrlc' || msg.functionName === 'ctrlv' || msg.functionName === 'return' || msg.functionName === 'blur')) {
         try {
             let dataUrl = await chrome.tabs.captureVisibleTab(
                 sender.tab.windowId,
@@ -890,13 +891,13 @@ async function runtimeOnMessage(msg, sender, fnResponse) {
         } catch (error) {
             if (error.message.indexOf('MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND') >= 0) {
                 const screenshotFromCache = TabCache.getLastScreenshot(sender.tab.id, sender.tab.windowId);
-                if(screenshotFromCache){
+                if (screenshotFromCache) {
                     console.debug('Recovered screenshot from cache due MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND');
                     msg.base64Screenshot = screenshotFromCache;
-                }else{
+                } else {
                     console.debug('Was not possible to recover screenshot from cache due MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND');
                 }
-                
+
             } else {
                 console.error(error);
             }
